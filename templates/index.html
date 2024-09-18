@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Time and Boston T Logo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: black;
+            color: white;
+        }
+
+        #time-container {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Adjust spacing between time and image */
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        h1 {
+            align-items: center;
+        }
+        #time {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        img {
+            width: 100px;
+            position: relative;
+            float: right;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        th {
+            padding: 8px;
+            text-align: left;
+            color: white;
+        }
+        td {
+            color: goldenrod;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Train Information</h1>
+
+    <!-- Train Arrivals Table -->
+    <table id="arrivalsTable">
+        <tr>
+            <th>Time</th>
+            <th>Current Stop</th>
+            <th>Destination</th>
+        </tr>
+    </table>
+
+    <!-- Time and Image Container -->
+    <div id="time-container">
+        
+        <div id="time"></div>
+
+        <img src="static/logo.png" alt="Boston T Logo">
+    </div>
+
+
+    <script>
+        // Function to update the current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to show time immediately
+
+        // Function to fetch and update the train arrival data
+        async function fetchArrivals() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/getArrivals');
+                const data = await response.json();
+
+                console.log(data)
+
+                
+                const arrivals = data;
+
+                // Get the table element
+                const table = document.getElementById('arrivalsTable');
+
+                // Clear the existing rows (except the header)
+                table.innerHTML = `
+                    <tr>
+                        <th>Time</th>
+                        <th>Current Stop</th>
+                        <th>Destination</th>
+                    </tr>
+                `;
+
+                // Loop through arrivals and add rows to the table
+                arrivals.forEach(arrival => {
+                    const row = document.createElement('tr');
+
+                    const timeCell = document.createElement('td');
+                    timeCell.textContent = arrival.arrivalTime;
+
+                    const stopCell = document.createElement('td');
+                    stopCell.textContent = arrival.currentStop;
+
+                    const destinationCell = document.createElement('td');
+                    destinationCell.textContent = arrival.destination;
+
+                    // Append cells to the row
+                    row.appendChild(timeCell);
+                    row.appendChild(stopCell);
+                    row.appendChild(destinationCell);
+
+                    // Append row to the table
+                    table.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching arrivals:', error);
+            }
+        }
+
+        // Fetch and update arrivals every 30 seconds
+        setInterval(fetchArrivals, 60000);
+        fetchArrivals(); // Initial call to fetch data immediately
+    </script>
+
+</body>
+
+</html>

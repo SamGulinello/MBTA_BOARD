@@ -1,15 +1,10 @@
 # MBTA_BOARD
 
 ## About
-This program is designed to run on a [Raspberry Pi](https//www.raspberrypi.com/) and 16 x 2 LCD display. It uses the [MBTA public API](https//www.mbta.com/developers/v3-api) to track the arrival times of the trains.
-
-## Setup
-To Use this code you will first need to generate an [API Key](https//api-v3.mbta.com/register). Insert the generated key in mbta.py. After that set up the Raspberry Pi and the LCD Display according to the schematic below.
-
-![schematic](https://www.mbtechworks.com/wp-uploads/lcd1602-bb.jpg)
+This program is designed to display the arrival times of the MBTA trains for a given station. It uses the [MBTA public API](https//www.mbta.com/developers/v3-api) to track the arrival times of the trains. An API key is necessary to for this to run. It can be obtained [here](https://api-v3.mbta.com/login). The program will prompt you for this key or you can hard code it in on app.py
 
 ## Running
-Finally after the device is set up just run main.py from the terminal. The program will prompt you for the station name of where you would like to target the arrivals. THIS STEP IS CASE SENSITIVE AND THE PROGRAM WILL CRASH IF DONE WRONG. Below is a list of all the stations in the MBTA. Once the station is in there might be a short delay as the Pi reaches out to the API. Once it gets data it will start to display it similar to how it is done on the Arrival boards at most T stops. It will cycle through both Inbound and Outbound destinations as well as all lines that are serviced at a given station.
+Run app.py. The program will prompt you for your API key and station name of where you would like to target the arrivals. THIS STEP IS CASE SENSITIVE AND THE PROGRAM WILL CRASH IF DONE WRONG. Below is a list of all the stations in the MBTA. Once the station is in there might be a short delay as the script reaches out to the API. In the meantime in your browser go to http://127.0.0.1:5000. 
 
 - Government Center
 - Park Street
@@ -126,4 +121,4 @@ Finally after the device is set up just run main.py from the terminal. The progr
 - Wonderland
 
 ## Contributing
-This is kind of a quick project for me so I won't be building it out much more. If you would like to contribute though please feel free to fork this repo and submit a pull request with the updates. I would love to see this take off.
+This is kind of a quick project for me so I won't be building it out much more. If you would like to contribute though please feel free to fork this repo and submit a pull request with the updates.
